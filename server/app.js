@@ -1,5 +1,7 @@
 import express from 'express'
 import local from './config'
+import connectDB , {models} from './model/common'
+
 var createError = require('http-errors');
 //var express = require('express');
 var path = require('path');
@@ -19,11 +21,12 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/../client/build')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
+app.use(['/api','/API'], indexRouter);
+app.use('*',function(req,res){
+  res.sendFile(path.join(__dirname+'/../client/build/index.html'));
+})
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -39,5 +42,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+connectDB().then(async() => {
 app.listen(1111,()=>console.log('server is running in 1111'))
+})
 module.exports = app;
