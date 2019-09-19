@@ -1,0 +1,13 @@
+{
+  "name": "task1",
+  "version": "1.0.0",
+  "description": "graphql post page",
+  "main": "index.js",
+  "scripts": {
+    "server":"npm start --prefix server",
+    "client":"npm start --prefix client",
+    "both": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "dhanasekar",
+  "license": "ISC"
+}
