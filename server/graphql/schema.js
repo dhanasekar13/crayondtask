@@ -23,7 +23,8 @@ input PostInput {
 type Mutation {
     createPost(input:PostInput):Post
     updatePost(_id:ID,input:PostInput):Post
-    uploadFile(file:Upload!): Boolean
+    uploadFile(file:Upload!): String
+    increaseCount(_id:ID):Post
 }
 `
 

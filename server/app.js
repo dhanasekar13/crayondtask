@@ -28,12 +28,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/../client/build')));
 
 const server = new GraphQLServer({schema });
-server.start({port: 2222,endpoint:'/file'},() => console.log(`Server is running on 2222/file`));
+server.start({port: 2222,endpoint:'/graphql'},() => console.log(`Server is running on 2222/file`));
 
-app.use('/graphql', graphHTTP({
-  schema,
-  graphiql:true
-}))
+// app.use('/graphql', graphHTTP({
+//   schema,
+//   graphiql:true
+// }))
 
 app.use(['/api','/API'], indexRouter);
 app.use('*',function(req,res){
@@ -55,6 +55,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 connectDB().then(async() => {
-app.listen(1111,()=>console.log('server is running in 1111'))
+  console.log('-----db connected succcessfully------')
+// app.listen(1111,()=>console.log('server is running in 1111'))
 })
 module.exports = app;
