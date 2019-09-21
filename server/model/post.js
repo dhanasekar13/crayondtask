@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 const postSchema = new mongoose.Schema({
     description: String,
     likes:Number,
+    imagurl:String,
     flag:Number
 })
 

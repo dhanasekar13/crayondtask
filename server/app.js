@@ -1,7 +1,10 @@
 import express from 'express'
 import local from './config'
+import graphHTTP from 'express-graphql'
+import { GraphQLServer } from 'graphql-yoga'
 import connectDB , {models} from './model/common'
-
+import schema from './graphql/schema'
+import cors from 'cors'
 var createError = require('http-errors');
 //var express = require('express');
 var path = require('path');
@@ -12,7 +15,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
-
+app.use(cors())
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -23,6 +26,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/../client/build')));
+
+const server = new GraphQLServer({schema });
+server.start({port: 2222,endpoint:'/file'},() => console.log(`Server is running on localhost:2222/file`));
+
+app.use('/graphql', graphHTTP({
+  schema,
+  graphiql:true
+}))
 
 app.use(['/api','/API'], indexRouter);
 app.use('*',function(req,res){
