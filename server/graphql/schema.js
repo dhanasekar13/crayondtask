@@ -14,7 +14,7 @@ type Query {
     getallPost:[Post]
 }
 input PostInput {
-    description: String!
+    description: String
     likes:Int
     imagurl:String
     flag:Int

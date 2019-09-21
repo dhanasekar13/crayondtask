@@ -5,7 +5,7 @@ import Post  from '../model/post'
 export const resolvers = {
     Query:{
         async getallPost() {
-            return await Post.findOne()
+            return await Post.find()
         }
     },
     Mutation:{
