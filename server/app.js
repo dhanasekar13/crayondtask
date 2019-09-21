@@ -28,7 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/../client/build')));
 
 const server = new GraphQLServer({schema });
-server.start({port: 2222,endpoint:'/file'},() => console.log(`Server is running on localhost:2222/file`));
+server.start({port: 2222,endpoint:'/file'},() => console.log(`Server is running on 2222/file`));
 
 app.use('/graphql', graphHTTP({
   schema,
