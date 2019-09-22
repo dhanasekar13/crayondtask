@@ -4,6 +4,7 @@ import { createUploadLink } from 'apollo-upload-client'
 import { ApolloClient } from 'apollo-client'
 import { InMemoryCache} from 'apollo-cache-inmemory'
 import { ApolloProvider } from 'react-apollo'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';

@@ -59,8 +59,7 @@ function Popup() {
       <div style={thumbInner}>
         <img alt="asdf"
           src={file.preview}
-          style={img}
-        />
+         />
       </div>
     </div>
   ));
@@ -78,7 +77,7 @@ function Popup() {
   }
     return (
       <form onSubmit={submitvalue}>
-        <Dropzone onDrop={acceptedFiles =>{
+        <Dropzone className= 'dropzone disabled' onDrop={acceptedFiles =>{
           console.log(acceptedFiles,'----------the file')
           setFiles(acceptedFiles.map(file => Object.assign(file, {
             preview: URL.createObjectURL(file)

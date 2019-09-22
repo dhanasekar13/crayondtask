@@ -41,7 +41,7 @@ export const resolvers = {
                 return await storeUpload({ stream, filename });
         },
         async increaseCount(root,{_id}) {
-            console.log('9999999999999999999the increccount')
+            console.log('9999999999999999999the increccount',_id)
             return await Post.findOneAndUpdate({_id},{$inc: {likes:1}})
         }
     }

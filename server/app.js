@@ -25,20 +25,21 @@ global.config = local;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '/../client/build')));
+ app.use(express.static('public'))
+// app.use(express.static(path.join(__dirname, '/../client/build')));
 
 const server = new GraphQLServer({schema });
 server.start({port: 2222,endpoint:'/graphql'},() => console.log(`Server is running on 2222/file`));
 
-// app.use('/graphql', graphHTTP({
-//   schema,
-//   graphiql:true
-// }))
+app.use('/graphql', graphHTTP({
+  schema,
+  graphiql:true
+}))
 
 app.use(['/api','/API'], indexRouter);
-app.use('*',function(req,res){
-  res.sendFile(path.join(__dirname+'/../client/build/index.html'));
-})
+// app.use('*',function(req,res){
+//   res.sendFile(path.join(__dirname+'/../client/build/index.html'));
+// })
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -57,5 +58,8 @@ app.use(function(err, req, res, next) {
 connectDB().then(async() => {
   console.log('-----db connected succcessfully------')
 // app.listen(1111,()=>console.log('server is running in 1111'))
+})
+app.listen(1111,()=>{
+  console.log('express server is running in 1111 ')
 })
 module.exports = app;
