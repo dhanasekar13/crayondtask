@@ -47,6 +47,9 @@ const img = {
   width: 'auto',
   height: '100%'
 };
+const style1 = {
+  width: "18rem",
+}
 
 function Popup() {
   let input;
@@ -54,13 +57,18 @@ function Popup() {
   const [description, setdescription] = useState()
   const [addTodo, { data }] = useMutation(uploadFileMutation);
   const [addPost, {post}] = useMutation(insertpost)
-  const thumbs = files.map(file => (
-    <div style={thumb} key={file.name}>
+  const remove =(e) =>{
+    files.splice(e.target.value,1)
+  }
+  const thumbs = files.map((file,index) => (
+    <div  className="close" aria-label="Close">  
+    <div style={thumb} key={file.name}  aria-hidden="true">
       <div style={thumbInner}>
         <img alt="asdf"
           src={file.preview}
          />
       </div>
+    </div><button value={index} onClick={remove}>x</button>
     </div>
   ));
   useEffect(() => () => {
@@ -68,17 +76,33 @@ function Popup() {
     files.forEach(file => URL.revokeObjectURL(file.preview));
   }, [files]);
  const  submitvalue =async (event)=>{
-    console.log('------form submit------',description )
     event.preventDefault()
-    let result = await addTodo({ variables: { file:files } })
-    let imagurl = result.data.uploadFile
-    let result1 = await addPost({variables: {description:description, imagurl: imagurl}})
-    console.log(result1,'-------the final result')
+    if(files.length < 0){
+      alert("please upload the file")
+      return false
+    } else {
+      let result = await addTodo({ variables: { file:files } })
+      let imagurl = result.data.uploadFile
+      if(description == "" || description == "undefined" ||description == undefined ){
+        alert("Please provide the description")
+        return false
+      }else {
+        let result1 = await addPost({variables: {description:description, imagurl: imagurl}})
+        if(result1){
+          window.location.reload(false);
+        }
+      }
+     
+    }
+   
   }
     return (
-      <form onSubmit={submitvalue}>
+      <form onSubmit={submitvalue}  className="d-flex justify-content-center">
+        <div class="card" style={style1}>
+  <div class="card-header">
+  
+  <p>  Hi post your thought 
         <Dropzone className= 'dropzone disabled' onDrop={acceptedFiles =>{
-          console.log(acceptedFiles,'----------the file')
           setFiles(acceptedFiles.map(file => Object.assign(file, {
             preview: URL.createObjectURL(file)
           })));
@@ -87,21 +111,21 @@ function Popup() {
             <section>
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
-                {data ? 
-
-                <aside style={thumbsContainer}>
-                {thumbs}
-                </aside>
-                :
-                <p>Drag 'n' drop some files here, or click to select files</p>
-
-                }
+             <button >Add</button>
               </div>
-              <input type="text" name="description" value={description} onChange={e=>setdescription(e.target.value)} />
-                <input type="submit" />
+            
             </section>
           )}
         </Dropzone>
+        </p>
+        </div>
+  <div class="card-body">
+  {thumbs}
+  <input type="text" name="description" value={description} onChange={e=>setdescription(e.target.value)} />
+                <input type="submit" />
+  </div>
+
+</div>
         </form>
     )
  }
